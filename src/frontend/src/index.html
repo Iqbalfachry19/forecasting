@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Price Prediction Dashboard</title>
+  <base href="/" />
+  <link rel="icon" href="favicon.ico" />
+  <link type="text/css" rel="stylesheet" href="main.css" />
+  <!-- Include Chart.js -->
+  <script src="chart.js"></script>
+</head>
+
+<body>
+  <div class="dashboard">
+    <header class="header">
+      <h1>Price Prediction Dashboard</h1>
+    </header>
+
+    <main class="main-content">
+      <section class="prediction-section">
+        <h2>Make a Prediction</h2>
+        <form id="prediction-form">
+          <label for="future_steps">Enter number of days to predict:</label>
+          <input id="future_steps" type="number" min="1" value="1" placeholder="e.g., 7" required />
+          <div id="container">
+            <div id="message"></div>
+            <img id="loader" src="loader.svg" class="loader invisible" />
+            <button id="predict" class="clean-button">Predict</button>
+          </div>
+        </form>
+      </section>
+
+      <section id="results-section">
+        <h2>Prediction Results</h2>
+        <div id="results"></div>
+        <canvas id="predictionChart" style="display: none;"></canvas> <!-- Canvas for the chart -->
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const inputField = document.getElementById("future_steps");
+
+    // Add an event listener to enforce the default value
+    inputField.addEventListener("input", function () {
+      if (this.value === "") {
+        this.value = 1; // Reset to default value if empty
+      } else if (this.value < 1) {
+        this.value = 1; // Prevent values less than 1
+      }
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,17 @@
+type Prediction = record {
+  values : vec float32; // The predicted values
+};
+
+type PredictionError = record {
+  message : text; // Error message
+};
+
+type PredictionResult = variant {
+  Ok : Prediction; // Successful prediction
+  Err : PredictionError; // Error during prediction
+};
+
+// Service definition
+service : {
+  "predict" : (future_steps : nat64) -> (PredictionResult);
+};
