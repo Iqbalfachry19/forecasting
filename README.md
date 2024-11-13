@@ -1,4 +1,4 @@
-# ICP Image Classification
+# ICP Forecasting
 
 This is an ICP smart contract that accepts an image from the user and runs image classification inference.
 The smart contract consists of two canisters:
