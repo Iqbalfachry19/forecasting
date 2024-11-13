@@ -3,6 +3,7 @@ import { backend } from "../../declarations/backend";
 let predictionChart; // Variable to hold the chart instance
 
 document.getElementById("predict").onclick = predict;
+document.getElementById("fetchHistorical").onclick = fetchHistoricalPrices;
 
 async function predict(event) {
   event.preventDefault();
@@ -36,7 +37,31 @@ async function predict(event) {
   return false;
 }
 
-// Renders the prediction results into the results div and creates a chart
+async function fetchHistoricalPrices(event) {
+  event.preventDefault();
+
+  const message = document.getElementById("message");
+  const loader = document.getElementById("loader");
+
+  message.innerText = "";
+  loader.className = "loader";
+
+  try {
+    // Call the backend historical price service
+    const result = await backend.fetch_historical_price();
+
+    if (result.Ok) {
+      renderHistoricalData(result.Ok.values);
+    } else {
+      throw result.Err;
+    }
+  } catch (err) {
+    message.innerText = "Failed to fetch historical prices: " + JSON.stringify(err);
+  } finally {
+    loader.className = "loader invisible"; // Hide loader after completion
+  }
+}
+
 function renderResults(element, values) {
   element.innerHTML = "<h2>Predicted Prices:</h2>";
   const ul = document.createElement("ul");
@@ -94,7 +119,6 @@ function renderResults(element, values) {
     }
   });
 
-  // Display chart and results
   element.appendChild(ul);
   values.forEach((value, index) => {
     const li = document.createElement("li");
@@ -103,4 +127,23 @@ function renderResults(element, values) {
   });
 
   document.getElementById("predictionChart").style.display = "block"; // Show the chart
+}
+
+// Function to render historical data on the chart
+function renderHistoricalData(values) {
+  const labels = values.map((_, index) => `Day -${values.length - index}`);
+  const data = values.map(value => value.toFixed(2)); // Formatting values for display
+
+  if (predictionChart) {
+    predictionChart.data.labels = [...labels, ...predictionChart.data.labels];
+    predictionChart.data.datasets.unshift({
+      label: 'Historical Prices',
+      data: data,
+      borderColor: 'rgba(255, 99, 132, 1)',
+      backgroundColor: 'rgba(255, 99, 132, 0.2)',
+      borderWidth: 1,
+      fill: true,
+    });
+    predictionChart.update();
+  }
 }

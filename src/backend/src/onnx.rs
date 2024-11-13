@@ -1,8 +1,8 @@
 use ndarray::{s, Array2};
 use prost::Message;
+
 use std::cell::RefCell;
 use tract_onnx::prelude::*;
-
 type Model = SimplePlan<TypedFact, Box<dyn TypedOp>, Graph<TypedFact, Box<dyn TypedOp>>>;
 
 thread_local! {

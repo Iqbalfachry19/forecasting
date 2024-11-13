@@ -14,4 +14,5 @@ type PredictionResult = variant {
 // Service definition
 service : {
   "predict" : (future_steps : nat64) -> (PredictionResult);
+  "fetch_historical_price" : () -> (PredictionResult);
 };

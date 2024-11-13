@@ -6,6 +6,7 @@ export const idlFactory = ({ IDL }) => {
     'Err' : PredictionError,
   });
   return IDL.Service({
+    'fetch_historical_price' : IDL.Func([], [PredictionResult], []),
     'predict' : IDL.Func([IDL.Nat64], [PredictionResult], []),
   });
 };

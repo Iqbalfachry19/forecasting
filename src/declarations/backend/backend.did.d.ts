@@ -7,6 +7,7 @@ export interface PredictionError { 'message' : string }
 export type PredictionResult = { 'Ok' : Prediction } |
   { 'Err' : PredictionError };
 export interface _SERVICE {
+  'fetch_historical_price' : ActorMethod<[], PredictionResult>,
   'predict' : ActorMethod<[bigint], PredictionResult>,
 }
 export declare const idlFactory: IDL.InterfaceFactory;
